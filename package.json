@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Mindpulation/sqola-student/issues"
   },
-  "homepage": "https://github.com/Mindpulation/sqola-student#readme"
+  "homepage": "https://github.com/Mindpulation/sqola-student#readme",
+  "dependencies": {
+    "mongooo": "^0.1.0"
+  }
 }
