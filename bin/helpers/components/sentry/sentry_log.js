@@ -1,8 +1,8 @@
-const config = require('../../../infra/configs/global_config');
+const config = require('config')
 const raven = require('raven');
 
 const sendError = async (errorMessage) => {
-  raven.config(config.get('/dsnSentryUrl')).install();
+  raven.config(config.get('dnsSentryUrl')).install();
   raven.captureMessage(errorMessage);
 };
 
