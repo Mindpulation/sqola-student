@@ -8,14 +8,14 @@ const mongo1 = new Mongo();
 const obj1 = mongo1.setup("ENV.database", "DataSiswa", "User");
 
 const SigninStudent = async (req, res) => {
+
+}
+
+const SignupStudent = async (req, res) => {
     await Promise.all(save(obj1, {
         Email : req.body.Email,
         Password : req.body.Password
     }))
-}
-
-const SignupStudent = async (req, res) => {
-
 }
 
 const UpdateStudent = async (req, res) => {
