@@ -4,13 +4,6 @@ const commandHandler = require('../repositories/commands/command_handler');
 const commandModel = require('../repositories/commands/command_model')
 const validator = require('../../../helpers/utils/validator');
 
-import { save } from "mongooo/lib/mongo/insert.js";
-import Mongo from "mongooo/lib/mongo/index.js";
-
-const mongo1 = new Mongo();
-
-const obj1 = mongo1.setup(config.get('mongoDbStudentUrl'), "DataSiswa", "User");
-
 const SigninStudent = async (req, res) => {
 
 }
@@ -31,10 +24,6 @@ const SignupStudent = async (req, res) => {
             :
         wrapper.response(res, 'success', result, )
     }
-    // await Promise.all(save(obj1, {
-    //     Email : req.body.Email,
-    //     Password : req.body.Password
-    // }));
 }
 
 const UpdateStudent = async (req, res) => {
