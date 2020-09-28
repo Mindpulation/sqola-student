@@ -12,7 +12,13 @@ const updateDataStudent = (payloadDataUpdate) =>{
     return command.updateData(payloadDataUpdate)
 }
 
+const deleteDataStudent = (payloadDataDelete) => {
+    return command.deleteDataStudent(payloadDataDelete)
+}
+
 module.exports = {
     insertDataStudent,
-    signinDataStudent
+    signinDataStudent,
+    updateDataStudent,
+    deleteDataStudent
 }
