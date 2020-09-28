@@ -114,14 +114,14 @@ const findData = async (payloadData) => {
         const dbResult = await find(con, payloadData)
         if(dbResult == null || dbResult == undefined || dbResult == ""){
             result.status = false,
-                result.result = "Find not found"
+            result.result = "Find not found"
         }
         result.status = true,
         result.result = payloadData;
     }catch (e) {
         const tickets = uuidv4;
         result.status = false,
-            result.result = "Something went wrong"
+        result.result = "Something went wrong"
         result.ticketId = tickets
         new Error(`Error : ${e}, ticketId : ${tickets}`);
     }
