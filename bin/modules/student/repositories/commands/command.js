@@ -1,6 +1,8 @@
 const config = require('config')
 const Mongo = require('mongooo').Mongooo;
 const { save } = require('mongooo').Save;
+const { find } = require('mongooo').Find;
+const { set } = require('mongooo').Update;
 const {uuid : uuidv4} =  require('uuid');
 
 const mongo = new Mongo();
@@ -35,7 +37,7 @@ const insertData = async (payloadData) => {
 const compareData = async (payloadData) => {
     const result = {
         "status" : false,
-        "result" : "Failed to insert student data"
+        "result" : "Failed to signin student data"
     };
     try{
         const dbResult = await find(con, payloadData)
@@ -55,8 +57,31 @@ const compareData = async (payloadData) => {
     return result;
 }
 
+const updateData = async (req, res) => {
+    const result = {
+        "status" : false,
+        "result" : "Failed to update student data"
+    };
+    try{
+        const dbResult = await set(con, payloadData.email, payloadData)
+        if(dbResult == null || dbResult == undefined || dbResult == ""){
+            result.status = false,
+            result.result = "Failed to update student data"
+        }
+        result.status = true,
+            result.result = "Success to login"
+    }catch (e) {
+        const tickets = uuidv4;
+        result.status = false,
+            result.result = "Something went wrong"
+        result.ticketId = tickets
+        new Error(`Error : ${e}, ticketId : ${tickets}`);
+    }
+    return result;
+}
 
 module.exports = {
     insertData,
-    compareData
+    compareData,
+    updateData
 }

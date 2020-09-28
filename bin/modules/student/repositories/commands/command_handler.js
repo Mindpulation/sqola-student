@@ -8,6 +8,11 @@ const signinDataStudent = (payloadDataSignup) => {
     return command.compareData(payloadDataSignup)
 }
 
+const updateDataStudent = (payloadDataUpdate) =>{
+    return command.updateData(payloadDataUpdate)
+}
+
 module.exports = {
-    insertDataStudent
+    insertDataStudent,
+    signinDataStudent
 }
