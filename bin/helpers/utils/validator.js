@@ -4,11 +4,13 @@ const validate = require('validate.js');
 const wrapper = require('../../helpers/utils/wrapper');
 
 const isValidPayload = (payload) => {
-    const { value, error } = signup.validate(payload);
+    const { value, error } = signup(payload);
+    console.log(value, " | ", error);
+
     if(!validate.isEmpty(error)){
         return wrapper.error(error, 409);
     }
-    return wrapper.data(value, 'success', 200);
+    return { value, error };
 
 };
 

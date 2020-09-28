@@ -16,11 +16,13 @@ const SigninStudent = async (req, res) => {
 }
 
 const SignupStudent = async (req, res) => {
-    const {value, error} = validator.isValidPayload(req.body);
+    console.log("Ini req : ", req.body);
+
+    const value = validator.isValidPayload(req.body).value;
+    const error = validator.isValidPayload(req.body).error;
+
     (error) ?  wrapper.response(res, 'fail', {}, 'Student Signup', 400) : null;
-
     const ress = await insertDataStudent(value);
-
     (ress.status) ? wrapper.response(res, 'success', ress.result ,200) :  wrapper.response(res, 'fail', ress.result, 'Student Signup', 400);
 
 }
