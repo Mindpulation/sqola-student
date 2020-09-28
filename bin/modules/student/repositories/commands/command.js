@@ -1,10 +1,13 @@
 const config = require('config')
-const mongo = require('mongooo/lib/mongo/index');
-const {save} = require('mongooo/lib/mongo/insert');
+const Mongo = require('mongooo').Mongooo;
+const { save } = require('mongooo').Save;
 const {uuid : uuidv4} =  require('uuid');
 
-const Mongo = new mongo();
-const colStudent = Mongo.setup(config.get('mongoDbStudentUrl'), config.get('mongoDbStudent'), config.get('mongoDbStudentCol'));
+const mongo = new Mongo();
+let con;
+(async () => {
+    con = await mongo.setup(config.get('mongoDbStudentUrl'), config.get('mongoDbStudent'), config.get('mongoDbStudentCol'));
+})()
 
 const insertData = async (payloadData) => {
     const result = {
@@ -12,7 +15,7 @@ const insertData = async (payloadData) => {
         "result" : "Failed to insert student data"
     };
     try{
-        const dbResult = await save(colStudent, payloadData)
+        const dbResult = await save(con, payloadData)
         if(dbResult == false){
             result.status = false,
             result.result = "Failed to insert student data"
