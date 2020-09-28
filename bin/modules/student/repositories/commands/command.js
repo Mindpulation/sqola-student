@@ -29,6 +29,7 @@ const insertData = async (payloadData) => {
     return result;
 }
 
+
 module.exports = {
     insertData
 }
