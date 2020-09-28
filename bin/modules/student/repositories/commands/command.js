@@ -32,7 +32,31 @@ const insertData = async (payloadData) => {
     return result;
 }
 
+const compareData = async (payloadData) => {
+    const result = {
+        "status" : false,
+        "result" : "Failed to insert student data"
+    };
+    try{
+        const dbResult = await find(con, payloadData)
+        if(dbResult == null || dbResult == undefined || dbResult == ""){
+            result.status = false,
+            result.result = "Username or Password was wrong"
+        }
+        result.status = true,
+        result.result = "Success to login"
+    }catch (e) {
+        const tickets = uuidv4;
+        result.status = false,
+        result.result = "Something went wrong"
+        result.ticketId = tickets
+        new Error(`Error : ${e}, ticketId : ${tickets}`);
+    }
+    return result;
+}
+
 
 module.exports = {
-    insertData
+    insertData,
+    compareData
 }
