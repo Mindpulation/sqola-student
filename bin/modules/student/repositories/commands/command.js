@@ -4,7 +4,7 @@ const {save} = require('mongooo/lib/mongo/insert');
 const {uuid : uuidv4} =  require('uuid');
 
 const Mongo = new mongo();
-const colStudent = Mongo.setup(config.get('mongoDbStudentUrl'), 'StudentDB', 'Student');
+const colStudent = Mongo.setup(config.get('mongoDbStudentUrl'), config.get('mongoDbStudent'), config.get('mongoDbStudentCol'));
 
 const insertData = async (payloadData) => {
     const result = {
