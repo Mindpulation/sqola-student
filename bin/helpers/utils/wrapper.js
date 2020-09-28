@@ -18,13 +18,14 @@ const response = (res, type, result, message = '', code = 200) => {
     message = result.err.message || message;
     code = checkErrorCode(result.err);
   }
-  res.send(code,
-    {
-      success: status,
-      data,
-      message,
-      code
-    });
+  res.status(code).send(
+      {
+        success: status,
+        data,
+        message,
+        code
+      }
+  )
 };
 
 const paginationResponse = (res, type, result, message = '', code = 200) => {

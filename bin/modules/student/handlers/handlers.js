@@ -35,7 +35,7 @@ const UpdateStudent = async (req, res) => {
 }
 
 const DeleteStudent = async (req, res) => {
-    const {value, error} = validator.isValidPayload(req.param);
+    const {value, error} = validator.isValidPayload(req.params);
     (error) ?  wrapper.response(res, 'fail', {}, 'Student Signup', 400) : null;
 
     const ress = await deleteDataStudent(value);
