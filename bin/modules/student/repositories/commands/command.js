@@ -7,6 +7,7 @@ const { set } = require('mongooo').Update;
 const {uuid : uuidv4} =  require('uuid');
 
 const mongo = new Mongo();
+
 let con;
 (async () => {
     con = await mongo.setup(config.get('mongoDbStudentUrl'), config.get('mongoDbStudent'), config.get('mongoDbStudentCol'));
@@ -81,7 +82,7 @@ const updateData = async (payloadData) => {
     return result;
 }
 
-const deleteDataStudent = async (req, res) => {
+const deleteDataStudent = async (payloadData) => {
     const result = {
         "status" : false,
         "result" : "Failed to delete student data"
@@ -104,9 +105,33 @@ const deleteDataStudent = async (req, res) => {
     return result;
 }
 
+const findData = async (payloadData) => {
+    const result = {
+        "status" : false,
+        "result" : "Failed to find student data"
+    };
+    try{
+        const dbResult = await find(con, payloadData)
+        if(dbResult == null || dbResult == undefined || dbResult == ""){
+            result.status = false,
+                result.result = "Find not found"
+        }
+        result.status = true,
+        result.result = payloadData;
+    }catch (e) {
+        const tickets = uuidv4;
+        result.status = false,
+            result.result = "Something went wrong"
+        result.ticketId = tickets
+        new Error(`Error : ${e}, ticketId : ${tickets}`);
+    }
+    return result;
+}
+
 module.exports = {
     insertData,
     compareData,
     updateData,
-    deleteDataStudent
+    deleteDataStudent,
+    findData
 }

@@ -16,9 +16,14 @@ const deleteDataStudent = (payloadDataDelete) => {
     return command.deleteDataStudent(payloadDataDelete)
 }
 
+const findDataStudent = (payloadDataFind) => {
+    return command.findData(payloadDataFind)
+}
+
 module.exports = {
     insertDataStudent,
     signinDataStudent,
     updateDataStudent,
-    deleteDataStudent
+    deleteDataStudent,
+    findDataStudent
 }

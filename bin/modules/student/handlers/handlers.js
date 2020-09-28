@@ -1,9 +1,6 @@
-const config = require('config')
 const wrapper = require('../../../helpers/utils/wrapper');
-const commandHandler = require('../repositories/commands/command_handler');
-const commandModel = require('../repositories/commands/command_model')
 const validator = require('../../../helpers/utils/validator');
-const { insertDataStudent, signinDataStudent, updateDataStudent, deleteDataStudent } = require('../repositories/commands/command_handler');
+const { insertDataStudent, signinDataStudent, updateDataStudent, deleteDataStudent, findDataStudent } = require('../repositories/commands/command_handler');
 
 const SigninStudent = async (req, res) => {
     const {value, error} = validator.isValidPayload(req.body);
@@ -16,12 +13,10 @@ const SigninStudent = async (req, res) => {
 }
 
 const SignupStudent = async (req, res) => {
-    console.log("Ini req : ", req.body);
 
-    const value = validator.isValidPayload(req.body).value;
-    const error = validator.isValidPayload(req.body).error;
+    const value = validator.isValidPayload(req.body);
 
-    (error) ?  wrapper.response(res, 'fail', {}, 'Student Signup', 400) : null;
+    (value) ?  wrapper.response(res, 'fail', value, "", 400) : null;
     const ress = await insertDataStudent(value);
     (ress.status) ? wrapper.response(res, 'success', ress.result ,200) :  wrapper.response(res, 'fail', ress.result, 'Student Signup', 400);
 
@@ -45,9 +40,19 @@ const DeleteStudent = async (req, res) => {
     (ress.status) ? wrapper.response(res, 'success', ress.result ,200) :  wrapper.response(res, 'fail', ress.result, 'Student Signup', 400);
 }
 
+const FindStudent = async (req, res) => {
+    const {value, error} = validator.isValidPayload(req.params);
+    (error) ?  wrapper.response(res, 'fail', {}, 'Student Signup', 400) : null;
+
+    const ress = await findDataStudent(value);
+
+    (ress.status) ? wrapper.response(res, 'success', ress.result ,200) :  wrapper.response(res, 'fail', ress.result, 'Student Signup', 400);
+}
+
 module.exports = {
     SigninStudent,
     SignupStudent,
     UpdateStudent,
-    DeleteStudent
+    DeleteStudent,
+    FindStudent
 }

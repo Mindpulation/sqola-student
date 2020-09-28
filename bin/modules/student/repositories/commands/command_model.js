@@ -6,7 +6,6 @@ const login = joi.object({
 });
 
 const signup = (payload) => {
-    console.log("Ini payload : ",payload);
     const signup = joi.object({
         email: joi.string().email({ tlds: { allow: true } }).required(),
         password: joi.string().required(),
