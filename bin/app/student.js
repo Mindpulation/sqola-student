@@ -1,6 +1,6 @@
 const studentHandlers =  require('../modules/student/handlers/handlers')
-const express = require('express').Router;
-const app = new express();
+const express = require('express');
+const app = express.Router();
 
 app.post("/signin",[] ,studentHandlers.SigninStudent)
 app.post("/signup",[] ,studentHandlers.SignupStudent)

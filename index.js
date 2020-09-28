@@ -7,7 +7,7 @@ const server = require('./bin/app/server');
 const student = require('./bin/app/student');
 const app = express();
 
-app.use(config.get('pathStudentEndpoint'), student)
+app.use('/v1/student', student)
 app.use('/', server)
 
 Sentry.init({
