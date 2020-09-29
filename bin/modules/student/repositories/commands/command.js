@@ -28,7 +28,6 @@ const insertData = async (payloadData) => {
                 ...payloadData.data,
                 "insertedAt" : new Date(),
                 "updatedAt" : new Date()
-
             }
             const dbResult = await save(con, payloads)
             if(dbResult == false){
@@ -56,13 +55,14 @@ const compareData = async (payloadData) => {
         "message" : "Failed to signin student data"
     };
     try{
-        const dbResult = await find(con, payloadData.data)
+        const dbResult = await findOne(con, payloadData.data)
         if(dbResult == null || dbResult == undefined || dbResult == ""){
             result.err = true,
             result.message = "Username or Password was wrong"
+        } else {
+            result.err = false,
+            result.message = "Success to login"
         }
-        result.err = false,
-        result.message = "Success to login"
     }catch (e) {
         const tickets = uuidv4;
         result.err = false,
