@@ -66,7 +66,7 @@ const UpdateStudent = async (req, res) => {
 }
 
 const DeleteStudent = async (req, res) => {
-    const validate = validator.isValidPayload(req.param, remove);
+    const validate = validator.isValidPayload({email : req.params.userId}, remove);
     const postRequest = async (result) => {
         console.log("\nIni Result : ", result)
         if (result.err) {
