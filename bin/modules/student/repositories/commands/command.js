@@ -74,21 +74,25 @@ const compareData = async (payloadData) => {
 
 const updateData = async (payloadData) => {
     const result = {
-        "status" : false,
-        "result" : "Failed to update student data"
+        "err" : true,
+        "message" : "Failed to update student data"
     };
     try{
-        const dbResult = await set(con, payloadData.data.email, payloadData.data)
-        if(dbResult == null || dbResult == undefined || dbResult == ""){
-            result.status = false,
-            result.result = "Failed to update student data"
+        const payloads = {
+            ...payloadData.data,
+            "updatedAt" : new Date()
         }
-        result.status = true,
-            result.result = "Success to login"
+        const dbResult = await set(con, payloadData.data.email, payloads)
+        if(dbResult == null || dbResult == undefined || dbResult == ""){
+            result.err = true,
+            result.message = "Failed to update student data"
+        }
+        result.err = false,
+        result.message = "Success to update"
     }catch (e) {
         const tickets = uuidv4;
         result.status = false,
-            result.result = "Something went wrong"
+        result.result = "Something went wrong"
         result.ticketId = tickets
         new Error(`Error : ${e}, ticketId : ${tickets}`);
     }
@@ -97,21 +101,21 @@ const updateData = async (payloadData) => {
 
 const deleteDataStudent = async (payloadData) => {
     const result = {
-        "status" : false,
-        "result" : "Failed to delete student data"
+        "err" : true,
+        "message" : "Failed to delete student data"
     };
     try{
         const dbResult = await del(con, payloadData.data)
         if(dbResult == null || dbResult == undefined || dbResult == ""){
-            result.status = false,
-                result.result = "Email not found"
+            result.err = true,
+            result.message = "Email not found"
         }
-        result.status = true,
-            result.result = "Success to delete user ", payloadData;
+        result.err = false,
+        result.message = "Success to delete user ", payloadData.data;
     }catch (e) {
         const tickets = uuidv4;
-        result.status = false,
-            result.result = "Something went wrong"
+        result.err = true,
+        result.message = "Something went wrong"
         result.ticketId = tickets
         new Error(`Error : ${e}, ticketId : ${tickets}`);
     }
@@ -120,21 +124,21 @@ const deleteDataStudent = async (payloadData) => {
 
 const findData = async (payloadData) => {
     const result = {
-        "status" : false,
-        "result" : "Failed to find student data"
+        "err" : true,
+        "message" : "Failed to find student data"
     };
     try{
         const dbResult = await find(con, payloadData.data)
         if(dbResult == null || dbResult == undefined || dbResult == ""){
-            result.status = false,
-            result.result = "Find not found"
+            result.err = true,
+            result.message = "Data not found"
         }
-        result.status = true,
-        result.result = payloadData;
+        result.err = false,
+        result.message = payloadData;
     }catch (e) {
         const tickets = uuidv4;
-        result.status = false,
-        result.result = "Something went wrong"
+        result.err = true,
+        result.message = "Something went wrong"
         result.ticketId = tickets
         new Error(`Error : ${e}, ticketId : ${tickets}`);
     }
