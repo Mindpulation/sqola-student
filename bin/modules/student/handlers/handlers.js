@@ -1,24 +1,44 @@
 const wrapper = require('../../../helpers/utils/wrapper');
 const validator = require('../../../helpers/utils/validator');
+const { signup } = require('../repositories/commands/command_model')
 const { insertDataStudent, signinDataStudent, updateDataStudent, deleteDataStudent, findDataStudent } = require('../repositories/commands/command_handler');
 
 const SigninStudent = async (req, res) => {
-    const {value, error} = validator.isValidPayload(req.body);
-    (error) ?  wrapper.response(res, 'fail', {}, 'Student Signup', 400) : null;
 
-    const ress = await signinDataStudent(value);
-
-    (ress.status) ? wrapper.response(res, 'success', ress.result ,200) :  wrapper.response(res, 'fail', ress.result, 'Student Signup', 400);
+    const validate = validator.isValidPayload(req.body, signup);
+    const postRequest = async (result) => {
+        if (result.result) {
+            return result;
+        }
+        return await signinDataStudent(result);
+    };
+    const sendResponse = async (result) => {
+        (result.err) ? wrapper.response(res, 'fail', result, 'Failed Register Admin', httpError.CONFLICT)
+            : wrapper.response(res, 'success', result, 'Register Admin', http.OK);
+    };
+    sendResponse(await postRequest(validate));
 
 }
 
 const SignupStudent = async (req, res) => {
 
-    const value = validator.isValidPayload(req.body);
+    const validate = validator.isValidPayload(req.body, signup);
+    const postRequest = async (result) => {
+        console.log("\nIni Result : ", result)
+        if (result.err) {
+            return result;
+        }
+        const output = await insertDataStudent(result);
+        console.log("Ini output : ", output)
+        return output;
+    };
+    const sendResponse = async (result) => {
+        (result.err) ? wrapper.response(res, 'fail', result, result.message, 400)
+            : wrapper.response(res, 'success', result, 'Success Signup Data', 200);
+        console.log("\nIni Result : ", result)
 
-    (value) ?  wrapper.response(res, 'fail', value, "", 400) : null;
-    const ress = await insertDataStudent(value);
-    (ress.status) ? wrapper.response(res, 'success', ress.result ,200) :  wrapper.response(res, 'fail', ress.result, 'Student Signup', 400);
+    };
+    sendResponse(await postRequest(validate));
 
 }
 

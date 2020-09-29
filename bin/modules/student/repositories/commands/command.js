@@ -2,7 +2,7 @@ const config = require('config')
 const Mongo = require('mongooo').Mongooo;
 const { save } = require('mongooo').Save;
 const { del } = require('mongooo').Delete;
-const { find } = require('mongooo').Find;
+const { findOne } = require('mongooo').Find;
 const { set } = require('mongooo').Update;
 const {uuid : uuidv4} =  require('uuid');
 
@@ -14,25 +14,36 @@ let con;
 })()
 
 const insertData = async (payloadData) => {
+    console.log(payloadData)
     const result = {
-        "status" : false,
-        "result" : "Failed to insert student data"
+        "err" : true,
+        "message" : "Failed to insert student data"
     };
     try{
-        const dbResult = await save(con, payloadData)
-        if(dbResult == false){
-            result.status = false,
-            result.result = "Failed to insert student data"
+        const findEmail = await findOne(con, {"email" : payloadData.data.email});
+        console.log("Ini email : ",findEmail)
+        if(findEmail !== null){
+            console.log("Must be failed")
+            result.err = true,
+            result.message = "Email already exist"
+        } else {
+            const dbResult = await save(con, payloadData.data)
+            console.log(dbResult)
+            if(dbResult == false){
+                result.err = true,
+                result.message = "Failed to insert student data"
+            }
+            result.err = false,
+            result.message = "Success to insert student data"
         }
-        result.status = true,
-        result.result = "Success to insert student data"
     }catch (e) {
         const tickets = uuidv4;
-        result.status = false,
-        result.result = "Something went wrong"
+        result.err = true,
+        result.message = "Something went wrong"
         result.ticketId = tickets
         new Error(`Error : ${e}, ticketId : ${tickets}`);
     }
+    console.log(result)
     return result;
 }
 
@@ -42,7 +53,7 @@ const compareData = async (payloadData) => {
         "result" : "Failed to signin student data"
     };
     try{
-        const dbResult = await find(con, payloadData)
+        const dbResult = await find(con, payloadData.data)
         if(dbResult == null || dbResult == undefined || dbResult == ""){
             result.status = false,
             result.result = "Username or Password was wrong"
@@ -65,7 +76,7 @@ const updateData = async (payloadData) => {
         "result" : "Failed to update student data"
     };
     try{
-        const dbResult = await set(con, payloadData.email, payloadData)
+        const dbResult = await set(con, payloadData.data.email, payloadData.data)
         if(dbResult == null || dbResult == undefined || dbResult == ""){
             result.status = false,
             result.result = "Failed to update student data"
@@ -88,7 +99,7 @@ const deleteDataStudent = async (payloadData) => {
         "result" : "Failed to delete student data"
     };
     try{
-        const dbResult = await del(con, payloadData)
+        const dbResult = await del(con, payloadData.data)
         if(dbResult == null || dbResult == undefined || dbResult == ""){
             result.status = false,
                 result.result = "Email not found"
@@ -111,7 +122,7 @@ const findData = async (payloadData) => {
         "result" : "Failed to find student data"
     };
     try{
-        const dbResult = await find(con, payloadData)
+        const dbResult = await find(con, payloadData.data)
         if(dbResult == null || dbResult == undefined || dbResult == ""){
             result.status = false,
             result.result = "Find not found"
