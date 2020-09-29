@@ -14,21 +14,23 @@ let con;
 })()
 
 const insertData = async (payloadData) => {
-    console.log(payloadData)
     const result = {
         "err" : true,
         "message" : "Failed to insert student data"
     };
     try{
         const findEmail = await findOne(con, {"email" : payloadData.data.email});
-        console.log("Ini email : ",findEmail)
         if(findEmail !== null){
-            console.log("Must be failed")
             result.err = true,
             result.message = "Email already exist"
         } else {
-            const dbResult = await save(con, payloadData.data)
-            console.log(dbResult)
+            const payloads = {
+                ...payloadData.data,
+                "insertedAt" : new Date(),
+                "updatedAt" : new Date()
+
+            }
+            const dbResult = await save(con, payloads)
             if(dbResult == false){
                 result.err = true,
                 result.message = "Failed to insert student data"
@@ -49,21 +51,21 @@ const insertData = async (payloadData) => {
 
 const compareData = async (payloadData) => {
     const result = {
-        "status" : false,
-        "result" : "Failed to signin student data"
+        "err" : true,
+        "message" : "Failed to signin student data"
     };
     try{
         const dbResult = await find(con, payloadData.data)
         if(dbResult == null || dbResult == undefined || dbResult == ""){
-            result.status = false,
-            result.result = "Username or Password was wrong"
+            result.err = true,
+            result.message = "Username or Password was wrong"
         }
-        result.status = true,
-        result.result = "Success to login"
+        result.err = false,
+        result.message = "Success to login"
     }catch (e) {
         const tickets = uuidv4;
-        result.status = false,
-        result.result = "Something went wrong"
+        result.err = false,
+        result.message = "Something went wrong"
         result.ticketId = tickets
         new Error(`Error : ${e}, ticketId : ${tickets}`);
     }
