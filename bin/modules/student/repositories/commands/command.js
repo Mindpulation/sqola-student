@@ -2,7 +2,7 @@ const config = require('config')
 const Mongo = require('mongooo').Mongooo;
 const { save } = require('mongooo').Save;
 const { del } = require('mongooo').Delete;
-const { findOne } = require('mongooo').Find;
+const { find, findOne } = require('mongooo').Find;
 const { set } = require('mongooo').Update;
 const {uuid : uuidv4} =  require('uuid');
 
@@ -55,7 +55,7 @@ const compareData = async (payloadData) => {
         "message" : "Failed to signin student data"
     };
     try{
-        const dbResult = await findOne(con, payloadData.data)
+        const dbResult = await find(con, payloadData.data)
         if(dbResult == null || dbResult == undefined || dbResult == ""){
             result.err = true,
             result.message = "Username or Password was wrong"
@@ -81,12 +81,15 @@ const updateData = async (payloadData) => {
         "message" : "Failed to update student data"
     };
     try{
-        const payloads = {
-            ...payloadData.data,
-            "updatedAt" : new Date()
+        const payloads = (payloadData) => {
+            delete payloadData.data.findEmail
+            const data = {
+                ...payloadData.data,
+                "updatedAt" : new Date()
+            }
+            return data
         }
-        const dbResult = await set(con, payloadData.data.email, payloads);
-        console.log("Ini update : ", dbResult)
+        const dbResult = await set(con, payloadData.data.findEmail, payloads(payloadData));
         if(!dbResult){
             result.err = true,
             result.message = "Failed to update student data"
@@ -136,13 +139,13 @@ const findData = async (payloadData) => {
         "message" : "Failed to find student data"
     };
     try{
-        const dbResult = await find(con, payloadData.data);
+        const dbResult = await findOne(con, payloadData.data);
         if(dbResult == null || dbResult == undefined || dbResult == ""){
             result.err = true,
             result.message = "Data not found"
         } else {
             result.err = false,
-            result.message = payloadData;
+            result.message = payloadData.data;
         }
     }catch (e) {
         const tickets = uuidv4;

@@ -66,7 +66,7 @@ const UpdateStudent = async (req, res) => {
 }
 
 const DeleteStudent = async (req, res) => {
-    const validate = validator.isValidPayload(req.body, remove);
+    const validate = validator.isValidPayload(req.param, remove);
     const postRequest = async (result) => {
         console.log("\nIni Result : ", result)
         if (result.err) {

@@ -12,8 +12,8 @@ const signup = joi.object({
 })
 
 const update = joi.object({
-    email: joi.string().email({tlds: {allow: true}}).required(),
-    newEmail : joi.string().email({tlds: {allow: true}}).optional(),
+    findEmail: joi.string().email({tlds: {allow: true}}).required(),
+    email : joi.string().email({tlds: {allow: true}}).optional(),
     name : joi.string().optional(),
     photo : joi.string().optional(),
     address : joi.string().optional(),
