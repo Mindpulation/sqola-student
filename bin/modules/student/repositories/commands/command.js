@@ -44,6 +44,7 @@ const insertData = async (payloadData) => {
         result.message = "Something went wrong"
         result.ticketId = tickets
         new Error(`Error : ${e}, ticketId : ${tickets}`);
+        console.log(`command-insertData [x] Error : ${e}, \nTicketId : ${tickets}`);
     }
     console.log(result)
     return result;
@@ -68,6 +69,7 @@ const compareData = async (payloadData) => {
         result.message = "Something went wrong"
         result.ticketId = tickets
         new Error(`Error : ${e}, ticketId : ${tickets}`);
+        console.log(`command-compareData [x] Error : ${e}, \nTicketId : ${tickets}`);
     }
     return result;
 }
@@ -95,6 +97,7 @@ const updateData = async (payloadData) => {
         result.result = "Something went wrong"
         result.ticketId = tickets
         new Error(`Error : ${e}, ticketId : ${tickets}`);
+        console.log(`command-updateData [x] Error : ${e}, \nTicketId : ${tickets}`);
     }
     return result;
 }
@@ -118,6 +121,7 @@ const deleteDataStudent = async (payloadData) => {
         result.message = "Something went wrong"
         result.ticketId = tickets
         new Error(`Error : ${e}, ticketId : ${tickets}`);
+        console.log(`command-deleteData [x] Error : ${e}, \nTicketId : ${tickets}`);
     }
     return result;
 }
@@ -128,7 +132,7 @@ const findData = async (payloadData) => {
         "message" : "Failed to find student data"
     };
     try{
-        const dbResult = await find(con, payloadData.data)
+        const dbResult = await find(con, payloadData.data);
         if(dbResult == null || dbResult == undefined || dbResult == ""){
             result.err = true,
             result.message = "Data not found"
@@ -141,6 +145,7 @@ const findData = async (payloadData) => {
         result.message = "Something went wrong"
         result.ticketId = tickets
         new Error(`Error : ${e}, ticketId : ${tickets}`);
+        console.log(`command-findData [x] Error : ${e}, \nTicketId : ${tickets}`);
     }
     return result;
 }
