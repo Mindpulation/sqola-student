@@ -71,6 +71,7 @@ const compareData = async (payloadData) => {
         new Error(`Error : ${e}, ticketId : ${tickets}`);
         console.log(`command-compareData [x] Error : ${e}, \nTicketId : ${tickets}`);
     }
+    console.log("Ini result signin : ", result)
     return result;
 }
 
@@ -84,13 +85,15 @@ const updateData = async (payloadData) => {
             ...payloadData.data,
             "updatedAt" : new Date()
         }
-        const dbResult = await set(con, payloadData.data.email, payloads)
-        if(dbResult == null || dbResult == undefined || dbResult == ""){
+        const dbResult = await set(con, payloadData.data.email, payloads);
+        console.log("Ini update : ", dbResult)
+        if(!dbResult){
             result.err = true,
             result.message = "Failed to update student data"
+        } else {
+            result.err = false,
+            result.message = "Success to update"
         }
-        result.err = false,
-        result.message = "Success to update"
     }catch (e) {
         const tickets = uuidv4;
         result.status = false,
@@ -112,9 +115,10 @@ const deleteDataStudent = async (payloadData) => {
         if(dbResult == null || dbResult == undefined || dbResult == ""){
             result.err = true,
             result.message = "Email not found"
+        } else {
+            result.err = false,
+            result.message = "Success to delete user ", payloadData.data;
         }
-        result.err = false,
-        result.message = "Success to delete user ", payloadData.data;
     }catch (e) {
         const tickets = uuidv4;
         result.err = true,
@@ -136,9 +140,10 @@ const findData = async (payloadData) => {
         if(dbResult == null || dbResult == undefined || dbResult == ""){
             result.err = true,
             result.message = "Data not found"
+        } else {
+            result.err = false,
+            result.message = payloadData;
         }
-        result.err = false,
-        result.message = payloadData;
     }catch (e) {
         const tickets = uuidv4;
         result.err = true,
