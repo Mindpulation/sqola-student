@@ -27,7 +27,7 @@ const insertData = async (payloadData) => {
             const payloads = {
                 ...payloadData.data,
                 "insertedAt" : new Date(),
-                "updatedAt" : new Date()
+                // "updatedAt" : new Date()
             }
             const dbResult = await save(con, payloads)
             if(dbResult == false){
@@ -84,12 +84,12 @@ const updateData = async (payloadData) => {
         const payloads = (payloadData) => {
             delete payloadData.data.findEmail
             const data = {
-                ...payloadData.data,
-                "updatedAt" : new Date()
+                ...payloadData.data
+                // "updatedAt" : new Date()
             }
             return data
         }
-        const dbResult = await set(con, payloadData.data.findEmail, payloads(payloadData));
+        const dbResult = await set(con, {"findEmail" : payloadData.data.email}, payloads(payloadData));
         if(!dbResult){
             result.err = true,
             result.message = "Failed to update student data"
