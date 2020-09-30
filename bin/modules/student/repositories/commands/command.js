@@ -139,13 +139,13 @@ const findData = async (payloadData) => {
         "message" : "Failed to find student data"
     };
     try{
-        const dbResult = await findOne(con, payloadData.data);
+        const dbResult = await find(con, payloadData.data, {});
         if(dbResult == null || dbResult == undefined || dbResult == ""){
             result.err = true,
             result.message = "Data not found"
         } else {
             result.err = false,
-            result.message = payloadData.data;
+            result.message = dbResult;
         }
     }catch (e) {
         const tickets = uuidv4;
