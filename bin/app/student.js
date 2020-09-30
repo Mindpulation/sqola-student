@@ -1,10 +1,21 @@
 const studentHandlers =  require('../modules/student/handlers/handlers')
-const express = require('express').Router;
-const app = new express();
+const express = require('express');
+const app = express.Router();
 
-app.post("/signin",[] ,studentHandlers.SigninStudent)
-app.post("/signup",[] ,studentHandlers.SignupStudent)
-app.put("/update",[] ,studentHandlers.UpdateStudent)
-app.delete("/:userId",[] ,studentHandlers.DeleteStudent)
+app.post("/signin",async (req, res) => {
+    await studentHandlers.SigninStudent(req, res)
+});
+app.post("/signup",async (req, res) => {
+    await studentHandlers.SignupStudent(req, res)
+});
+app.post("/find",async (req, res) => {
+    await studentHandlers.FindStudent(req, res)
+});
+app.put("/update",async (req, res) => {
+    await studentHandlers.UpdateStudent(req, res)
+});
+app.delete("/:userId",async (req, res) => {
+    await studentHandlers.DeleteStudent(req, res)
+});
 
 module.exports = app;
