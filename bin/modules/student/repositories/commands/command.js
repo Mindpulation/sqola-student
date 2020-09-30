@@ -85,11 +85,10 @@ const updateData = async (payloadData) => {
             delete payloadData.data.findEmail
             const data = {
                 ...payloadData.data
-                // "updatedAt" : new Date()
             }
             return data
         }
-        const dbResult = await set(con, {"findEmail" : payloadData.data.email}, payloads(payloadData));
+        const dbResult = await set(con, {"email" : payloadData.data.findEmail}, payloads(payloadData));
         if(!dbResult){
             result.err = true,
             result.message = "Failed to update student data"

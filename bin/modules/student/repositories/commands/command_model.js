@@ -24,6 +24,7 @@ const update = joi.object({
     class : joi.string().optional(),
     vocation : joi.string().optional(),
     year : joi.string().optional(),
+    password : joi.string().optional(),
     selfDescription : joi.string().optional(),
     linkSocialMedia : joi.array().items({
         platform : joi.string().required(),
