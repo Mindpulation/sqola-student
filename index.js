@@ -13,7 +13,7 @@ const app = express();
 app.use(bp.urlencoded({ extended: false }));
 app.use(bp.json());
 app.use(cors());
-app.use('/v1/student', student);
+app.use(config.get('pathStudentEndpoint'), student);
 app.use('/', server);
 
 Sentry.init({
