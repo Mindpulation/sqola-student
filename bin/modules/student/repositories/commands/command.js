@@ -51,9 +51,10 @@ const insertData = async (payloadData) => {
             if(dbResult == false){
                 result.err = true,
                 result.message = "Failed to insert student data"
+            }else{
+                result.err = false,
+                result.message = "Success to insert student data"
             }
-            result.err = false,
-            result.message = "Success to insert student data"
         }
     }catch (e) {
         const tickets = uuidv4;
