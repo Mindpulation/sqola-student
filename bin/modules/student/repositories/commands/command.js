@@ -11,7 +11,7 @@ const mongo = new Mongo();
 let con;
 (async () => {
     con = await mongo.setup(config.get('mongoDbStudentUrl'), config.get('mongoDbStudent'), config.get('mongoDbStudentCol'));
-})()
+})();
 
 const insertData = async (payloadData) => {
     const result = {
@@ -27,7 +27,6 @@ const insertData = async (payloadData) => {
             const payloads = {
                 ...payloadData.data,
                 "insertedAt" : new Date(),
-                // "updatedAt" : new Date()
             }
             const dbResult = await save(con, payloads)
             if(dbResult == false){
