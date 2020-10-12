@@ -42,12 +42,9 @@ const insertData = async (payloadData) => {
             const payloads = {
                 ...payloadData.data,
                 "insertedAt" : new Date(),
-<<<<<<< HEAD
-=======
                 "roomChat" : addressRoom(`${payloadData.data.email}(chat)`),
                 "roomAnnouncement" : addressRoom(`${payloadData.data.email}(announcement)`),
                 "roomNotif" : addressRoom(`${payloadData.data.email}(notif)`)
->>>>>>> master
             }
 
             const dbResult = await save(con, payloads)
