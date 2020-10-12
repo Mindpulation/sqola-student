@@ -4,8 +4,8 @@ const insertDataStudent = (payloadDataSignup) => {
     return command.insertData(payloadDataSignup);
 }
 
-const signinDataStudent = (payloadDataSignup) => {
-    return command.compareData(payloadDataSignup)
+const signinDataStudent = (payloadDataSignin) => {
+    return command.compareData(payloadDataSignin)
 }
 
 const updateDataStudent = (payloadDataUpdate) =>{

@@ -11,7 +11,7 @@ const mongo = new Mongo();
 let con;
 (async () => {
     con = await mongo.setup(config.get('mongoDbStudentUrl'), config.get('mongoDbStudent'), config.get('mongoDbStudentCol'));
-})()
+})();
 
 const insertData = async (payloadData) => {
     const result = {
