@@ -5,7 +5,6 @@ const { del } = require('mongooo').Delete;
 const { find, findOne } = require('mongooo').Find;
 const { set } = require('mongooo').Update;
 const {uuid : uuidv4} =  require('uuid');
-
 const mongo = new Mongo();
 
 let con;
@@ -16,7 +15,7 @@ let con;
 const insertData = async (payloadData) => {
     const result = {
         "err" : true,
-        "message" : "Failed to insert student data"
+        "message" : "Failed to insert absnet data"
     };
     try{
         const findEmail = await findOne(con, {"email" : payloadData.data.email});
@@ -99,20 +98,26 @@ const updateData = async (payloadData) => {
         "message" : "Failed to update student data"
     };
     try{
-        const payloads = (payloadData) => {
-            delete payloadData.data.findEmail
-            const data = {
-                ...payloadData.data
+        const findIsUserExist = await find(con, payloadData.findEmail);
+        if(findIsUserExist){
+            const payloads = (payloadData) => {
+                delete payloadData.data.findEmail
+                const data = {
+                    ...payloadData.data
+                }
+                return data
             }
-            return data
-        }
-        const dbResult = await set(con, {"email" : payloadData.data.findEmail}, payloads(payloadData));
-        if(!dbResult){
-            result.err = true,
-            result.message = "Failed to update student data"
+            const dbResult = await set(con, {"email" : payloadData.data.findEmail}, payloads(payloadData));
+            if(!dbResult){
+                result.err = true,
+                    result.message = "Failed to update student data"
+            } else {
+                result.err = false,
+                    result.message = "Success to update"
+            }
         } else {
             result.err = false,
-            result.message = "Success to update"
+                result.message = "User not exist"
         }
     }catch (e) {
         const tickets = uuidv4;
