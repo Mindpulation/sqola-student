@@ -99,8 +99,9 @@ const updateData = async (payloadData) => {
         "message" : "Failed to update student data"
     };
     try{
-        const findIsUserExist = await find(con, payloadData.findEmail);
-        if(findIsUserExist){
+        const findIsUserExist = await find(con, {email : payloadData.findEmail});
+        console.log("User : ",findIsUserExist)
+        if(findIsUserExist.length > 0){
             const payloads = (payloadData) => {
                 delete payloadData.data.findEmail
                 const data = {
@@ -117,7 +118,7 @@ const updateData = async (payloadData) => {
                     result.message = "Success to update"
             }
         } else {
-            result.err = false,
+            result.err = true,
                 result.message = "User not exist"
         }
     }catch (e) {
