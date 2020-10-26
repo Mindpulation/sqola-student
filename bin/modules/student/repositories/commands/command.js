@@ -10,7 +10,7 @@ const mongo = new Mongo();
 let con;
 (async () => {
     con = await mongo.setup(config.get('mongoDbStudentUrl'), config.get('mongoDbStudent'), config.get('mongoDbStudentCol'));
-})()
+})();
 
 const insertData = async (payloadData) => {
     const result = {
@@ -50,9 +50,10 @@ const insertData = async (payloadData) => {
             if(dbResult == false){
                 result.err = true,
                 result.message = "Failed to insert student data"
+            }else{
+                result.err = false,
+                result.message = "Success to insert student data"
             }
-            result.err = false,
-            result.message = "Success to insert student data"
         }
     }catch (e) {
         const tickets = uuidv4;

@@ -1,5 +1,3 @@
-// const joi = require('joi');
-const { signup } = require('../../modules/student/repositories/commands/command_model')
 const validate = require('validate.js');
 const wrapper = require('../../helpers/utils/wrapper');
 const joi = require('joi')
